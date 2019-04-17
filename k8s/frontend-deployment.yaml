@@ -1,0 +1,34 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: demo-frontend
+spec:
+  selector:
+    app: demo-frontend
+  ports:
+  - protocol: TCP
+    port: 8081
+    nodePort: 30001
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-frontend
+spec:
+  selector:
+      matchLabels:
+        app: demo-frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: demo-frontend
+    spec:
+      containers:
+        - name: demo-frontend
+          image: harbor.waret.net/demo/frontend
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+
